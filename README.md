@@ -28,7 +28,7 @@ The REPL output shows that the order is preserved.
 
 ## FAQ
 
-### Q: Isn't it unsafe to rely on JavaScripts Object property order?
+### Isn't it unsafe to rely on JavaScripts Object property order?
 
 Since ES2015 JavaScript object properties are guaranteed to preserve insertion order for string keys. This library ensures that every property is interpreted as string by the JavaScript engine. Thus the order can be relied on.
 
