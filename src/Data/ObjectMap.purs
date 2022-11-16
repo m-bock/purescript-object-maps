@@ -6,12 +6,13 @@ module Data.ObjectMap
   , insert
   , lookup
   , toArray
-  )
-  where
+  , module Exp
+  ) where
 
 import Prelude
 
 import Data.Argonaut.Core (stringify)
+import Data.Argonaut.Encode (class EncodeJson, encodeJson) as Exp
 import Data.Argonaut.Encode (class EncodeJson, encodeJson)
 import Data.Either (Either(..))
 import Data.Lens (lens)
@@ -26,13 +27,13 @@ import Foreign.Object as Obj
 
 newtype ObjectMap k v = ObjectMap (Object (Tuple k v))
 
-fromArray :: forall k v. EncodeJson k => Array (Tuple k v) -> ObjectMap k v 
+fromArray :: forall k v. EncodeJson k => Array (Tuple k v) -> ObjectMap k v
 fromArray xs = xs
   <#> (\kv -> toJsonStr (fst kv) /\ kv)
   # Obj.fromFoldable
   # ObjectMap
 
-toArray :: forall k v. ObjectMap k v -> Array (Tuple k v) 
+toArray :: forall k v. ObjectMap k v -> Array (Tuple k v)
 toArray (ObjectMap obj) = Obj.values obj
 
 empty :: forall k v. ObjectMap k v
@@ -63,4 +64,9 @@ instance EncodeJson k => At (ObjectMap k v) k v where
       maybe' (\_ -> delete k m) \v -> insert k v m
 
 toJsonStr :: forall a. EncodeJson a => a -> String
-toJsonStr = encodeJson >>> stringify
+toJsonStr = encodeJson >>> stringify >>> enforceJsString
+
+enforceJsString :: String -> String
+enforceJsString x = ticks <> x <> ticks
+  where
+  ticks = "\""
