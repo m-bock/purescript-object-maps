@@ -1,19 +1,15 @@
 { name = "object-maps"
 , dependencies =
-  [ "aff"
-  , "argonaut-codecs"
+  [ "argonaut-codecs"
   , "argonaut-core"
-  , "datetime"
-  , "debug"
-  , "effect"
   , "either"
   , "foreign-object"
   , "maybe"
   , "prelude"
   , "profunctor-lenses"
-  , "spec"
+  , "st"
   , "tuples"
   ]
 , packages = ./packages.dhall
-, sources = [ "src/**/*.purs", "test/**/*.purs" ]
+, sources = [ "src/**/*.purs" ]
 }

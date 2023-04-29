@@ -4,7 +4,7 @@ Map-like data structure with stable insertion order
 
 ## Description
 
-An `ObjectMap k v` represents maps from keys of type k to values of type v. It _keeps its insertion order_ and has efficient lookups. The insertion performance however is O(n), equal to the underlying [Object](https://pursuit.purescript.org/packages/purescript-foreign-object).
+An `ObjectMap k v` represents maps from keys of type k to values of type v. It _keeps its insertion order_ and has efficient lookups. The insertion performance however is O(n), equal to the underlying [Object](https://pursuit.purescript.org/packages/purescript-foreign-object) but there's also an `ST` version available with constant insertion performance.
 
 Keys need an instance of [EncodeJson](https://pursuit.purescript.org/packages/purescript-argonaut-codecs/docs/Data.Argonaut.Encode.Class#t:EncodeJson) for most operations.
 
@@ -24,6 +24,22 @@ The REPL output shows that the order is preserved.
 ```
 > toArray sample  
 [(Tuple 2 "2"),(Tuple 3 "3"),(Tuple 1 "1")]
+```
+
+As previously said, `insert` has O(n) time complexity. If you want better performance, you can use the function
+`poke` of the module `Data.ObjectMap.ST` which has O(1) average time complexity.
+
+```hs
+import Control.Monad.ST as ST
+import Data.ObjectMap (ObjectMap)
+import Data.ObjectMap.ST as STOM
+
+sample :: ObjectMap Int String
+sample = ST.run do
+  m <- STOM.new
+  for_ (1..10000) \n -> do
+    void $ STOM.poke i (show i) m
+  STOM.unsafeFreeze m
 ```
 
 ## FAQ
