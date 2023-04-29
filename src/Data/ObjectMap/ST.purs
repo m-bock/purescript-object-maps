@@ -5,7 +5,7 @@ import Prelude
 import Control.Monad.ST (ST)
 import Data.Argonaut.Encode (class EncodeJson)
 import Data.Maybe (Maybe)
-import Data.ObjectMap as OM
+import Data.ObjectMap.Internal as OM
 import Data.Tuple (Tuple, snd)
 import Data.Tuple.Nested ((/\))
 import Foreign.Object.ST (STObject)

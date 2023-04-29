@@ -26,6 +26,23 @@ The REPL output shows that the order is preserved.
 [(Tuple 2 "2"),(Tuple 3 "3"),(Tuple 1 "1")]
 ```
 
+As previously said, `insert` has O(n) time complexity. If you want better performance, you can use the function
+`poke` of the module `Data.ObjectMap.ST` which has O(1) average time complexity.
+
+```hs
+import Control.Monad.ST as ST
+import Data.ObjectMap (ObjectMap)
+import Data.ObjectMap.ST as STOM
+
+sample :: ObjectMap Int String
+sample = ST.run (do
+          m <- STOM.new
+          for_ (1..10000) \n -> do
+            void $ STOM.poke i (show i) m
+          STOM.unsafeFreeze m
+)
+```
+
 ## FAQ
 
 ### Isn't it unsafe to rely on JavaScripts Object property order?

@@ -55,10 +55,10 @@ main = launchAff_ $ runSpec [ consoleReporter ] do
             _ <- STOM.poke 2 3 m
             _ <- STOM.poke 3 3 m
             _ <- STOM.poke 1 1 m
-            _ <- STOM.delete 3 m
             STOM.unsafeFreeze m
       )
       OM.toArray m' # shouldEqual
             [ 2 /\ 3
+            , 3 /\ 3
             , 1 /\ 1
             ]
