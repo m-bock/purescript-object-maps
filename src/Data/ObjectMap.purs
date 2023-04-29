@@ -1,11 +1,12 @@
 module Data.ObjectMap
-  ( ObjectMap
+  ( ObjectMap(..)
   , delete
   , empty
   , fromArray
   , insert
   , lookup
   , toArray
+  , toJsonStr
   , module Exp
   ) where
 
