@@ -5,6 +5,7 @@ module Data.ObjectMap.ST
   , new
   , peek
   , poke
+  , modify
   , run
   , thaw
   , unsafeFreeze
@@ -15,7 +16,7 @@ import Prelude
 
 import Control.Monad.ST (ST)
 import Data.Argonaut.Encode (class EncodeJson)
-import Data.Maybe (Maybe)
+import Data.Maybe (Maybe(..))
 import Data.ObjectMap.Internal as OM
 import Data.Tuple (Tuple, snd)
 import Data.Tuple.Nested ((/\))
@@ -42,6 +43,14 @@ poke k v (STObjectMap m) = STObjectMap <$> STO.poke (OM.toJsonStr k) (k /\ v) m
 -- | Remove a key and the corresponding value from a mutable map
 delete :: forall r k v. EncodeJson k => k -> STObjectMap r k v -> ST r (STObjectMap r k v)
 delete k (STObjectMap m) = STObjectMap <$> STO.delete (OM.toJsonStr k) m
+
+-- | Similar to alter but for mutable maps
+modify :: forall r k v. EncodeJson k => k -> (Maybe v -> Maybe v) -> STObjectMap r k v -> ST r (STObjectMap r k v)
+modify key f m = do
+  mv <- f <$> peek key m
+  case mv of
+    Nothing -> delete key m
+    Just v -> poke key v m
 
 -- | Convert an immutable map into a mutable map
 thaw :: forall r k v. OM.ObjectMap k v -> ST r (STObjectMap r k v)

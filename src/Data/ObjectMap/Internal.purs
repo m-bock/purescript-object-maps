@@ -36,10 +36,13 @@ empty :: forall k v. ObjectMap k v
 empty = ObjectMap $ Obj.empty
 
 isEmpty :: forall k v. ObjectMap k v -> Boolean
-isEmpty (ObjectMap m) = Obj.isEmpty m
+isEmpty (ObjectMap obj) = Obj.isEmpty obj
 
 size :: forall k v. ObjectMap k v -> Int
-size (ObjectMap m) = Obj.size m
+size (ObjectMap obj) = Obj.size obj
+
+member :: forall k v. EncodeJson k => k -> ObjectMap k v -> Boolean
+member key (ObjectMap obj) = Obj.member (toJsonStr key) obj
 
 insert :: forall k v. EncodeJson k => k -> v -> ObjectMap k v -> ObjectMap k v
 insert key val (ObjectMap obj) = ObjectMap $
