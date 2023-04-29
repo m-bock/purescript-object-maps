@@ -1,4 +1,12 @@
-module Data.ObjectMap.ST where
+module Data.ObjectMap.ST
+  ( STObjectMap
+  , delete
+  , new
+  , peek
+  , poke
+  , unsafeFreeze
+  )
+  where
 
 import Prelude
 
