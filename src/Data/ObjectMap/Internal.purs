@@ -20,7 +20,6 @@ import Data.Tuple.Nested ((/\))
 import Foreign.Object (Object)
 import Foreign.Object as Obj
 
-
 newtype ObjectMap k v = ObjectMap (Object (Tuple k v))
 
 fromArray :: forall k v. EncodeJson k => Array (Tuple k v) -> ObjectMap k v
@@ -47,7 +46,6 @@ member key (ObjectMap obj) = Obj.member (toJsonStr key) obj
 insert :: forall k v. EncodeJson k => k -> v -> ObjectMap k v -> ObjectMap k v
 insert key val (ObjectMap obj) = ObjectMap $
   Obj.insert (toJsonStr key) (Tuple key val) obj
-
 
 delete :: forall k v. EncodeJson k => k -> ObjectMap k v -> ObjectMap k v
 delete key (ObjectMap obj) = ObjectMap $ Obj.delete (toJsonStr key) obj

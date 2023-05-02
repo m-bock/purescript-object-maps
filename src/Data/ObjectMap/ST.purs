@@ -9,8 +9,7 @@ module Data.ObjectMap.ST
   , run
   , thaw
   , unsafeFreeze
-  )
-  where
+  ) where
 
 import Prelude
 
