@@ -30,16 +30,15 @@ As previously said, `insert` has O(n) time complexity. If you want better perfor
 `poke` of the module `Data.ObjectMap.ST` which has O(1) average time complexity.
 
 ```hs
-import Control.Monad.ST as ST
 import Data.ObjectMap (ObjectMap)
 import Data.ObjectMap.ST as STOM
 
 sample :: ObjectMap Int String
-sample = ST.run do
+sample = STOM.run do
   m <- STOM.new
   for_ (1..10000) \n -> do
     void $ STOM.poke i (show i) m
-  STOM.unsafeFreeze m
+  pure m
 ```
 
 ## FAQ

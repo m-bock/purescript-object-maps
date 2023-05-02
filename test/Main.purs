@@ -2,7 +2,6 @@ module Test.Main where
 
 import Prelude
 
-import Control.Monad.ST (run)
 import Data.ObjectMap (ObjectMap)
 import Data.ObjectMap as OM
 import Data.ObjectMap.ST as STOM
@@ -50,12 +49,12 @@ main = launchAff_ $ runSpec [ consoleReporter ] do
 
   describe "build an object map via ST" do
     it "keeps order" do
-      let m' = run (do
+      let m' = STOM.run (do
             m <- STOM.new
             _ <- STOM.poke 2 3 m
             _ <- STOM.poke 3 3 m
             _ <- STOM.poke 1 1 m
-            STOM.unsafeFreeze m
+            pure m
       )
       OM.toArray m' # shouldEqual
             [ 2 /\ 3
